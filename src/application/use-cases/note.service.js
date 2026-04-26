@@ -21,12 +21,38 @@ async createNote(data) {
 
  }
 
-async getNoteByUser(userId){
+async getNotesByUserId(userId){
 
  return await this.noteRepository.findByUserId(userId);
 
 }
 
+// Tarea 3
+
+ async getById(id){
+        return await this.noteRepository.findById(id);
+    }
+
+
+async updateNote(id, data) {
+    
+    console.log("ID recibido:", id);
+    console.log("Datos recibidos:", data);
+    const note = await this.noteRepository.updateMany(id, data);
+
+    if (!note) throw new Error("Note not found"); 
+
+    return note;
+    
+}
+
+
+async deleteNote(id){
+    
+    return  await this.noteRepository.deleteMany(id);
+    
+}
+ 
 }
 
 

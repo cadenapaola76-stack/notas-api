@@ -3,6 +3,7 @@ import NoteController from "../controllers/note.controller.js";
 import NoteService from "../../application/use-cases/note.service.js";
 import upload from "../middlewares/upload.middleware.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { roleMiddleware } from "../middlewares/role.middleware.js";
 
 //aqui definiremos que base de datos usar para las notas, en este caso MongoDB
 
@@ -23,11 +24,19 @@ const router = Router();
 
 //comentado sin seguuridad
 
-router.post("/", upload.single('image'), noteController.createNote);
+/*router.post("/", upload.single('image'), noteController.createNote);
 router.get("/", noteController.getNotesByUserId);
 router.get("/:id", noteController.getById);
 router.put("/:id", noteController.updateNote);
-router.delete("/:id", noteController.deleteNote);
+router.delete("/:id", noteController.deleteNote);*/
+
+//con seguridad
+
+router.post("/", authMiddleware, upload.single('image'), noteController.createNote);
+router.get("/", authMiddleware, noteController.getNotesByUserId);
+router.put("/:id", authMiddleware,noteController.updateNote);
+router.delete("/:id", authMiddleware, roleMiddleware(["admin"]), noteController.deleteNote);
+
 
 // por el momento    router.post("/",authMiddleware, upload.single('image'), noteController.createNote); 
 

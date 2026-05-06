@@ -14,15 +14,13 @@ export default class NoteController {
 const data = req.body;
 
  if (req.file) data.imageUrl = '/uploads/' + req.file.filename;
-
-data.userId = 'user_123'; //TODO:  LUEGO OBTENER EL USUARIO DE LA SESION O TOKEN
-
+//data.userId = 'user_123'; //TODO:  LUEGO OBTENER EL USUARIO DE LA SESION O TOKEN
+ data.userId = req.user.id; 
  try {
 
- const note = await this.noteService.createNote(data);
-
- res.status(201).json({
-    message: " Nota creada satisfactoriamente",
+    const note = await this.noteService.createNote(data);
+    res.status(201).json({
+    message: " Note created successfully",
     data: note
  }); // 201 Created
 
@@ -36,8 +34,8 @@ data.userId = 'user_123'; //TODO:  LUEGO OBTENER EL USUARIO DE LA SESION O TOKE
 
 
  getNotesByUserId = async (req, res) => {
-
- const userId = 'user_123';
+ //const userId = 'user_123';
+ const userId = req.user.id;
 
  try {
 
@@ -87,7 +85,7 @@ updateNote = async (req, res) => {
 
   
     res.status (200).json({
-        message: "Nota actualizada satisfactoriamente",
+        message: "Note successfully updated",
         data: note
     });
      
@@ -106,7 +104,7 @@ try{
     const deleteData = await this.noteService.deleteNote(id);
     res.status (200).json({
 
-        message:"Nota eliminada satisfactoriamente"
+        message:"Note successfully deleted"
     });
     
 }catch (error){

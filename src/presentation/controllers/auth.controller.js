@@ -8,7 +8,10 @@ export default class AuthController {
 
     register = async (req, res) => {
     const result = await this.authService.register(req.body);
-    res.status(201).json(result);
+    res.status(201).json({
+        message: "Register satisfactorily",
+        data: result
+    });
 
     };
 
@@ -20,7 +23,6 @@ export default class AuthController {
      }
 
     const result = await this.authService.login(req.body);
-
     res.json(result);
 
     };

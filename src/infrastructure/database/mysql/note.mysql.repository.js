@@ -1,37 +1,39 @@
 
-//import { DataTypes } from "sequelize";
-//import sequelize from "./connection.js";
-import NoteModel from "./note.modelmysql.js";
+import { DataTypes } from "sequelize";
+import sequelize from "./connection.js";
+//import NoteModel from "./note.modelmysql.js";
 
-/*
+
 const NoteModel = sequelize.define("Note", {
 
  title: { type: DataTypes.STRING, allowNull: false },
  content: { type: DataTypes.TEXT, allowNull: false },
  imageUrl: { type: DataTypes.STRING },
  isPrivate: { type: DataTypes.BOOLEAN, defaultValue: false },
- password: { type: DataTypes.STRING },  
- userId: { type: DataTypes.STRING, allowNull: false }
-
-}, { timestamps: true }); */
+ password: { type: DataTypes.STRING }, 
+ userId: { type: DataTypes.STRING, allowNull: false },
+ categoryId: { type: DataTypes.INTEGER }
+ 
+}, { timestamps: true }); 
 
 
 export default class NoteMySQLRepository {
 
  async save(noteEntity) {
 
- const note = await NoteModel.create({
+    const note = await NoteModel.create({
 
- title: noteEntity.title,
- content: noteEntity.content,
- imageUrl: noteEntity.imageUrl,
- isPrivate: noteEntity.isPrivate,
- password: noteEntity.password,
- userId: noteEntity.userId
+        title: noteEntity.title,
+        content: noteEntity.content,
+        imageUrl: noteEntity.imageUrl,
+        isPrivate: noteEntity.isPrivate,
+        password: noteEntity.password,
+        userId: noteEntity.userId,
+        categoryId: noteEntity.categoryId
 
- });
+    });
 
- return note.toJSON();
+    return note.toJSON();
 
  }
 

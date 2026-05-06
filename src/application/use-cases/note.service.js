@@ -5,53 +5,48 @@ import NoteEntity from "../../domain/entities/note.entity.js";
 
 export default class NoteService {
 
- constructor(noteRepository) {
+    constructor(noteRepository) {
+         this.noteRepository = noteRepository;
 
- this.noteRepository = noteRepository;
+    }
 
- }
+    async createNote(data) {
+        if (!data.title || !data.content) { throw new Error("Title and content are required"); }
 
-async createNote(data) {
+        const note = new NoteEntity(data);
+        return await this.noteRepository.save(note);
 
- if (!data.title || !data.content) { throw new Error("Title and content are required"); }
+    }
 
- const note = new NoteEntity(data);
+    async getNotesByUserId(userId){
+    return await this.noteRepository.findByUserId(userId);
 
- return await this.noteRepository.save(note);
-
- }
-
-async getNotesByUserId(userId){
-
- return await this.noteRepository.findByUserId(userId);
-
-}
+    }
 
 // Tarea 3
 
- async getById(id){
+    async getById(id){
         return await this.noteRepository.findById(id);
     }
 
 
-async updateNote(id, data) {
+    async updateNote(id, data) {
     
     console.log("ID recibido:", id);
     console.log("Datos recibidos:", data);
     const note = await this.noteRepository.updateMany(id, data);
 
     if (!note) throw new Error("Note not found"); 
-
     return note;
     
-}
+    }
 
 
-async deleteNote(id){
+    async deleteNote(id){
     
     return  await this.noteRepository.deleteMany(id);
     
-}
+    }
  
 }
 

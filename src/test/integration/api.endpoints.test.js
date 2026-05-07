@@ -1,5 +1,6 @@
 import request from 'supertest';
-import app from '../../app.js';
+//import app from '../../app.js';
+import indexapp from '../../indexapp.js';
 import mongoose from 'mongoose';
 import JwtService from '../../infrastructure/security/jwt.service.js';
 
@@ -8,18 +9,18 @@ describe('Integración - API Completa', () => {
 
  // Si estuviéramos usando una base de datos real de pruebas, aquí nos desconectaríamos al finalizar
 
- afterAll(async () => {
+   afterAll(async () => {
 
- await mongoose.disconnect();
+   await mongoose.disconnect();
 
- });
+   });
 
 
 describe('1. Healthcheck Endpoint', () => {
 
- test('GET /api/v1/health debería devolver 200 OK y estado', async () => {
+ test('GET /api/health debería devolver 200 OK y estado', async () => {
 
-   const response = await request(app).get('/api/v1/health');
+   const response = await request(indexapp).get('/api/health');
 
    expect(response.statusCode).toBe(200);
    expect(response.body).toHaveProperty('status', 'OK');
@@ -34,13 +35,11 @@ describe('1. Healthcheck Endpoint', () => {
 
  let validToken;
 
-
-
  // Antes de probar las notas, necesitamos generar un token falso para pasar el authMiddleware
 
  beforeAll(() => {
 
-   validToken = JwtService.generateToken({
+   validToken =  JwtService.generateToken({
        id: 'usuario_falso_123',
        email: 'test@test.com',
        role: 'user'
@@ -52,9 +51,9 @@ describe('1. Healthcheck Endpoint', () => {
 
    test('GET /api/v1/notes debería fallar si no se envía Token (401)', async () => {
 
-      const response = await request(app).get('/api/v1/notes');
+      const response = await request(indexapp).get('/api/v1/notes');
       expect(response.statusCode).toBe(401);
-      expect(response.body).toHaveProperty('error', 'Token no proveído');
+      expect(response.body).toHaveProperty('error', 'Authorization header missing or invalid');
 
    });
 
@@ -62,7 +61,7 @@ describe('1. Healthcheck Endpoint', () => {
 
    test('POST /api/v1/notes debería fallar si falta el Título (400 o 500)', async () => {
 
-      const response = await request(app)
+      const response = await request(indexapp)
          .post('/api/v1/notes')
          .set('Authorization', `Bearer ${validToken}`) // Enviamos el token
          .send({ content: 'Contenido sin titulo' }); // Simulamos req.body
@@ -76,7 +75,7 @@ describe('1. Healthcheck Endpoint', () => {
 
    test('GET /api/v1/notes debería ser exitoso si se envía Token válido (200)', async () => {
 
-       const response = await request(app)
+       const response = await request(indexapp)
       .get('/api/v1/notes')
       .set('Authorization', `Bearer ${validToken}`); // Enviamos el token en la cabecera
 

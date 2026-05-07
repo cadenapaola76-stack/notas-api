@@ -32,6 +32,8 @@ router.get("/:id", noteController.getById);
 router.put("/:id", noteController.updateNote);
 router.delete("/:id", noteController.deleteNote);*/
 
+router.get("/:id/public", noteController.getNotePublic);
+router.get("/:id", noteController.getById);
 //con seguridad
 /**
  * @swagger

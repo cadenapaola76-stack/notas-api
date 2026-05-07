@@ -10,18 +10,18 @@ definition: {
             description: 'Documentación de la API para gestionar notas y usuarios',
     },
     servers: [
-{ url: 'http://localhost:3000/api/v1' }
-],
+        { url: 'http://localhost:3000/api/v1' }
+    ],
     components: {
-    securitySchemes: {
-    bearerAuth: {
-    type: 'http',
-    scheme: 'bearer',
-    bearerFormat: 'JWT',
-}
-}
-},
-security: [{ bearerAuth: [] }] // Aplica seguridad globalmente (opcional)
+        securitySchemes: {
+            bearerAuth: {
+                type: 'http',
+                scheme: 'bearer',
+                bearerFormat: 'JWT',
+            }
+        }
+    },
+    security: [{ bearerAuth: [] }] // Aplica seguridad globalmente (opcional)
 },
 // Le decimos a Swagger dónde buscar los comentarios para generar la documentación
 apis: ['./src/presentation/routes/*.js'], 

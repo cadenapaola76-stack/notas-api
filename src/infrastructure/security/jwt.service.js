@@ -8,20 +8,20 @@ export default class JwtService {
         // definiremos que vamos a poner ahi  {id ,  email,  role }
     return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "4h" });
 
- }
+   }
 
     static verifyToken(token) {
 
- try {
+      try {
 
-    return jwt.verify(token, process.env.JWT_SECRET);
+         return jwt.verify(token, process.env.JWT_SECRET);
 
- } catch (error) {
+      } catch (error) {
 
-    throw new Error("Invalid token");
+         throw new Error("Invalid token");
 
- }
+      }
 
- }
+   }
 
 }

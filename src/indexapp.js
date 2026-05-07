@@ -15,22 +15,22 @@ import { setupSwagger } from './infrastructure/config/swagger.config.js';
 await connectMongo();
 await connectMysql();
 
-const app = express();
+const indexapp = express();
 
-app.use(cors());
-app.use(express.json());
-setupSwagger(app);
-app.use(loggerMiddleware);
-app.use(morgan('dev'));
+indexapp.use(cors());
+indexapp.use(express.json());
+//setupSwagger(indexapp);
+//indexapp.use(loggerMiddleware);
+indexapp.use(morgan('dev'));
 
 //imagenes estaticas
 
-app.use('/uploads', express.static('uploads'));
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/notes',noteRoutes);
-app.use('/api/v1/category', categoryRoutes);
+indexapp.use('/uploads', express.static('uploads'));
+indexapp.use('/api/v1/auth', authRoutes);
+indexapp.use('/api/v1/notes',noteRoutes);
+indexapp.use('/api/v1/category', categoryRoutes);
 
-app.get('/api/health', (req, res) => {
+indexapp.get('/api/health', (req, res) => {
 
     res.status(200).json({ status: 'OK',message: 'API de notas activa' });
 
@@ -38,7 +38,7 @@ app.get('/api/health', (req, res) => {
 
 //midleware de manejo de errores global
 
-app.use((err, req, res, next) => {
+indexapp.use((err, req, res, next) => {
 
     console.error(err.stack);
 
@@ -47,10 +47,4 @@ res.status(500).json({ error: 'Error interno del servidor' });
 });
 
 
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en el puerto ${PORT}`);
-});
-
-export default app;
+export default indexapp;

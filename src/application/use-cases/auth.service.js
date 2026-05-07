@@ -15,13 +15,11 @@ constructor(userRepository) {
  async register(data) {
 
     const exist= await this.userRepository.findByEmail(data.email);
-
     if(exist){ throw new Error("Email already in use"); }
     
     data.password = await HashService.hash(data.password);
     const newUser = new UserEntity(data);
     await this.userRepository.save(newUser);
-
     return { message: "User registered successfully" };
 
  }
@@ -32,10 +30,9 @@ constructor(userRepository) {
     if (!user) { throw new Error("Invalid credentials"); }
 
     const isMatch = await HashService.compare(password, user.password);
-
     if (!isMatch) { throw new Error("Invalid credentials"); }
     
-    const token = JwtService.generateToken({ id: user.id, email: user.email, role: user.role });
+    const token = await JwtService.generateToken({ id: user.id, email: user.email, role: user.role });
 
     return { token };
 

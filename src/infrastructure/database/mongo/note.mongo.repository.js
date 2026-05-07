@@ -1,4 +1,3 @@
-import noteModel from "./note.model.js";
 import NoteModel from "./note.model.js";
 
 export default class NoteMongoRepository {

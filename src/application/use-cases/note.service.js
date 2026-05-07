@@ -20,8 +20,18 @@ export default class NoteService {
 
     async getNotesByUserId(userId){
     return await this.noteRepository.findByUserId(userId);
-
     }
+
+
+//Ejercicio 3 – Rutas Públicas
+     async getNotePublic(id){
+      const note = await this.noteRepository.findById(id);
+
+        if(note.isPrivate === true) throw new Error('Note private, access denied');
+        
+        return note;
+    }
+
 
 // Tarea 3
 
@@ -34,7 +44,7 @@ export default class NoteService {
     
     console.log("ID recibido:", id);
     console.log("Datos recibidos:", data);
-    const note = await this.noteRepository.updateMany(id, data);
+    const note = await this.noteRepository.update(id, data);
 
     if (!note) throw new Error("Note not found"); 
     return note;
@@ -44,7 +54,7 @@ export default class NoteService {
 
     async deleteNote(id){
     
-    return  await this.noteRepository.deleteMany(id);
+    return  await this.noteRepository.delete(id);
     
     }
  

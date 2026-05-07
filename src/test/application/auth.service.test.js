@@ -44,7 +44,7 @@ describe('register', () =>{
 
       expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(userData.email);
       expect(mockUserRepository.save).toHaveBeenCalled();
-      expect(result).toBe("User registered successfully"); 
+      expect(result).toStrictEqual({message:"User registered successfully"} ); 
 
    });
 

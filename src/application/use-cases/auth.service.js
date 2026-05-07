@@ -32,7 +32,7 @@ constructor(userRepository) {
     const isMatch = await HashService.compare(password, user.password);
     if (!isMatch) { throw new Error("Invalid credentials"); }
     
-    const token = JwtService.generateToken({ id: user.id, email: user.email, role: user.role });
+    const token = await JwtService.generateToken({ id: user.id, email: user.email, role: user.role });
 
     return { token };
 

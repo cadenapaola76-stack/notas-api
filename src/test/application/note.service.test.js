@@ -16,7 +16,7 @@ let noteService;
         noteService = new NoteService(mockNoteRepository);
     });
 
-describe('createNote', () =>{
+    describe('createNote', () =>{
     test('Crear: debería crear y guardar una nota correctamente', async () => {
         const data = { title: 'Mi nota', content: 'Info', userId: 'user_123' };
         mockNoteRepository.save.mockResolvedValue({ id: 1, ...data });
@@ -28,7 +28,7 @@ describe('createNote', () =>{
     });
 
     test('Crear: debería fallar al crear una nota sin título', async () => {
-        const data = { content: 'Sin titulo' };
+        const data = { title: 'Sin titulo' };
         await expect(noteService.createNote(data)).rejects.toThrow("Title and content are required");
     });
 });
